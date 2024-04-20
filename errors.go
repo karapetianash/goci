@@ -16,7 +16,10 @@ type stepErr struct {
 }
 
 func (s *stepErr) Error() string {
-	return fmt.Sprintf("Step: %q: %s: Cause: %v", s.step, s.msg, s.cause)
+	if s.msg == "" {
+		return fmt.Sprintf("Step: %s: Cause: %v", s.step, s.cause)
+	}
+	return fmt.Sprintf("Step: %s: %s: Cause: %v", s.step, s.msg, s.cause)
 }
 
 func (s *stepErr) Is(target error) bool {
