@@ -223,10 +223,11 @@ func TestRunKill(t *testing.T) {
 				errCh <- run(tc.proj, io.Discard)
 			}()
 
-			// TODO: add killing process for windows
 			go func() {
 				time.Sleep(2 * time.Second)
-				syscall.Kill(syscall.Getpid(), tc.sig)
+
+				process, _ := os.FindProcess(syscall.Getpid())
+				_ = process.Kill()
 			}()
 
 			// select error
